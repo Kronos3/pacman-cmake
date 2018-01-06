@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 project(pacman C)
 
+include_directories (lib/libalpm)
+include_directories (src/pacman)
+
 set(CMAKE_C_STANDARD 99)
 
-file(GLOB PACMAN_HEADERS "src/pacman/*.h")
-file(GLOB PACMAN_SOURCES "src/pacman/*.c")
-
+file (GLOB PACMAN_HEADERS "src/pacman/*.h")
+file (GLOB PACMAN_SOURCES "src/pacman/*.c")
 
 file(GLOB LIB_ALPM_HEADERS "lib/libalpm/*.h")
 file(GLOB LIB_ALPM_SOURCES "lib/libalpm/*.c")
@@ -37,6 +39,6 @@ add_definitions (-DROOTDIR="/")
 add_definitions (-DHAVE_GETMNTENT)
 add_definitions (-DHAVE_MNTENT_H)
 
-add_library(LIB_alpm SHARED ${LIB_ALPM_HEADERS} ${LIB_ALPM_SOURCES})
+add_library(alpm SHARED ${LIB_ALPM_HEADERS} ${LIB_ALPM_SOURCES})
 add_executable(pacman ${PACMAN_HEADERS} ${PACMAN_SOURCES})
-target_link_libraries (pacman LIB_alpm archive curl ssl gpgme)
+target_link_libraries (pacman alpm archive curl ssl gpgme)
